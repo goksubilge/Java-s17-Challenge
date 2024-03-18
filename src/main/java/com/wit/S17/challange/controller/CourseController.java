@@ -1,5 +1,6 @@
 package com.wit.S17.challange.controller;
 
+import com.wit.S17.challange.dto.CourseResponse;
 import com.wit.S17.challange.entity.Course;
 import com.wit.S17.challange.entity.CourseGPA;
 import jakarta.annotation.PostConstruct;
@@ -52,5 +53,5 @@ public class CourseController {
         }
     }
     // NOT: dönüş değerlerim hiç bir zaman entity class isimlerime aynı olmamalı. bunun için bir dto package tanımlamalıyım. yani "public Course .." burada Course u gidip dto --> CourseResponse class 'ında tanımlayacağım.
-
+    // Dolayısıyla artık 'public Course ...' yerine 'public CourseResponse ...' dönüş değerini salıyorum. dto üzerinden.
 }
