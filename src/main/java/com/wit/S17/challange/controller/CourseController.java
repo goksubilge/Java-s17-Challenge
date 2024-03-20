@@ -46,6 +46,7 @@ public class CourseController {
         //  2.) findFirst hangi tip dönüyor diye baktık, uyarı verdi zaten. Optional type.
         //  3.) bi kırılma noktası oluyor Optional 'da ya break yapacaksın ya da if ile koşulunu yazacaksın.
         Optional<Course> optCourse = courses.stream().filter(course -> course.getName().equals(name)).findFirst();
+        // Alternative: List<Course>  optCourse = courses.stream().filter(course -> course.getName().equals(name)).collect(Collectors.toList());
         if(optCourse.isPresent()){
             return optCourse.get();
         } else {
@@ -63,9 +64,10 @@ public class CourseController {
        return CourseResponseFactory.createCourseResponse(course,lowGPA,mediumGPA,highGPA);
     }
 
-    @PutMapping("{id}")
+    @PutMapping("/{id}")
     public Course update(@RequestBody Course course,@PathVariable int id){
-       //TODO Validation
+        //TODO id is valid
+        //new List [course1, course2]
         //önce ilgili id course 'unu bulmalıyım: courses.stream().filter(courseID -> courseID.getId() == id).findFirst(); => Optional<> bir List döner, eşitliyorum
         Optional<Course> optionalCourse = courses.stream().filter(courseID -> courseID.getId() == id).findFirst();
         if(optionalCourse.isPresent()){
@@ -74,15 +76,17 @@ public class CourseController {
             // veritabanım halen yok, şimdilik set 'ledim.
             course.setId(id);
             // bulduğun index 'i gelen course ile değiştir, güncellemiş ol.
-            courses.set(index,course);  //
+            courses.set(index,course);
+            return course;
         } else {
             //TODO throw course not found exception
+            return null;
         }
-        return null;
+
    }
 
     @DeleteMapping("/{id}")
-    public Course remove(@RequestBody Course course,@PathVariable int id) {
+    public Course remove(@PathVariable int id) {
         Optional<Course> optionalCourse = courses.stream().filter(courseID -> courseID.getId() == id).findFirst();
         if (optionalCourse.isPresent()) {
             // git bizim course 'un Liste 'deki index 'ini bul
@@ -93,7 +97,7 @@ public class CourseController {
             return optionalCourse.get();
         } else {
             //TODO throw course not found exception
+            return null;
         }
-        return null;
     }
 }
