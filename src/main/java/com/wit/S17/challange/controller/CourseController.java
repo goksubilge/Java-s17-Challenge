@@ -63,5 +63,21 @@ public class CourseController {
        return CourseResponseFactory.createCourseResponse(course,lowGPA,mediumGPA,highGPA);
     }
 
-
+    @PutMapping("{id}")
+    public Course update(@RequestBody Course course,@PathVariable int id){
+       //TODO Validation
+        //önce ilgili id course 'unu bulmalıyım: courses.stream().filter(courseID -> courseID.getId() == id).findFirst(); => Optional<> bir List döner, eşitliyorum
+        Optional<Course> optionalCourse = courses.stream().filter(courseID -> courseID.getId() == id).findFirst();
+        if(optionalCourse.isPresent()){
+            // git bizim course 'un Liste 'deki index 'ini bul
+            int index = courses.indexOf(optionalCourse.get());
+            // veritabanım halen yok, şimdilik set 'ledim.
+            course.setId(id);
+            // bulduğun index 'i gelen course ile değiştir, güncellemiş ol.
+            courses.set(index,course);  //
+        } else {
+            //TODO throw course not found exception
+        }
+        return null;
+   }
 }
