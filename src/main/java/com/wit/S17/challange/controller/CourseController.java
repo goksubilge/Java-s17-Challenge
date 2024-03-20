@@ -80,4 +80,20 @@ public class CourseController {
         }
         return null;
    }
+
+    @DeleteMapping("/{id}")
+    public Course remove(@RequestBody Course course,@PathVariable int id) {
+        Optional<Course> optionalCourse = courses.stream().filter(courseID -> courseID.getId() == id).findFirst();
+        if (optionalCourse.isPresent()) {
+            // git bizim course 'un Liste 'deki index 'ini bul
+            int index = courses.indexOf(optionalCourse.get());
+            // bulduğum index 'i sildiririm.
+            courses.remove(index);
+            // sildiği objeyi bana geri dönsün:
+            return optionalCourse.get();
+        } else {
+            //TODO throw course not found exception
+        }
+        return null;
+    }
 }
